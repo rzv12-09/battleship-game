@@ -44,4 +44,25 @@ export default class Gameboard {
         }
     }
 
+    checkValidAttack(row,col) {
+        if(row < 0 || row >= this.board.length || col < 0 || col >= this.board[row].length) {
+            throw new Error("Selected cell is out of bounds");
+        }
+        const cell = this.getCell(row,col);
+        if(cell.wasAttacked) {
+            throw new Error("Selected cell was already attacked");
+        }
+    }
+
+    receiveAttack(row,col) {
+        this.checkValidAttack(row,col);
+        const cell = this.getCell(row,col);
+        cell.wasAttacked = true;
+        const ship = cell.ship;
+        if(ship) {
+            ship.hit();
+            return "hit";            
+        }
+        return "miss";
+    }
 }

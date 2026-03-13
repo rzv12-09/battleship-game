@@ -3,6 +3,7 @@ export default class Cell {
         this.row = row;
         this.col = col;
         this.ship = null;
+        this.wasAttacked = false;
     }
 
 }

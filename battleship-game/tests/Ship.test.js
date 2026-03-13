@@ -26,4 +26,5 @@ describe('Ship class',()=>{
         ship.hit();
         expect(ship.isSunk()).toBe(true);
     })
+    
 })

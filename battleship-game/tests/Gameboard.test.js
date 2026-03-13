@@ -64,4 +64,63 @@ describe("Gameboard class", () => {
         const ship = new Ship(3);
         expect(() => board.placeShip(ship,0,0,true)).toThrow("Ship is out of bounds");
     })
+
+})
+
+describe("Gameboard receiveAttack function", () => {
+    it("register the ship attack on a occupied cell",() => {
+        const board = new Gameboard(5);
+        const ship = new Ship(3);
+        board.placeShip(ship,1,0,true);
+        board.receiveAttack(1,1);
+        expect(ship.hitsReceived).toBe(1);
+    })
+    it("change the cell status after attack", () => {
+        const board = new Gameboard(5);
+        const ship = new Ship(3);
+        board.placeShip(ship,1,0,true);
+        board.receiveAttack(1,1);
+        const selectedCell = board.getCell(1,1);
+        expect(selectedCell.wasAttacked).toBe(true);
+    })
+    it("throws error if cell was already attacked", () => {
+        const board = new Gameboard(5);
+        const ship = new Ship(3);
+        board.placeShip(ship,1,0,true);
+        board.receiveAttack(1,1);
+        expect(() => board.receiveAttack(1,1)).toThrow("Selected cell was already attacked");
+    })
+
+    it("records the attack on empty cells", () => {
+        const board = new Gameboard(5);
+        board.receiveAttack(1,1);
+        const selectedCell = board.getCell(1,1);
+        expect(selectedCell.wasAttacked).toBe(true);
+    })
+
+    it("throws error if selected cell is out of bounds", () => {
+        const board = new Gameboard(2);
+        expect(() => board.receiveAttack(7,7)).toThrow("Selected cell is out of bounds");
+    })
+    it("return `hit` if a ship was attacked", () => {
+        const board = new Gameboard(5);
+        const ship = new Ship(3);
+        board.placeShip(ship,1,0,true);
+        expect(board.receiveAttack(1,1)).toBe("hit");
+    })
+
+    it("return `miss` if a empty cell was attacked", () => {
+        const board = new Gameboard(5);
+        expect(board.receiveAttack(1,1)).toBe("miss");
+    })
+})
+
+describe("Gameboard areAllShipsSunk funcion", () => {
+    it("should return true if all ships are sunk", () => {
+        const board = new Gameboard(5);
+        const ship = new Ship(1);
+        board.placeShip(ship,0,0,true);
+        board.receiveAttack(0,0);
+        expect(board.areAllShipsSunk()).toBe(true);
+    })
 })
