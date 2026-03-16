@@ -3,6 +3,7 @@ import Cell from "./Cell";
 export default class Gameboard {
     constructor(boardSideLength) {
         this.board = [];
+        this.ships = [];
         for (let row = 0 ; row < boardSideLength ; row++) {
             const boardRow = [];
             for (let col = 0 ; col < boardSideLength ; col++) {
@@ -18,11 +19,9 @@ export default class Gameboard {
             const row = isHorizontally ? startRow : startRow + i;
             const col = isHorizontally ? startCol + i : startCol;
             const cell = this.board[row][col];
-            if(cell.ship) {
-                throw new Error("Cell is already occupied");
-            }
             cell.ship = ship; 
         }
+        this.ships.push(ship);
     }
 
     getCell(row,col) {
@@ -64,5 +63,9 @@ export default class Gameboard {
             return "hit";            
         }
         return "miss";
+    }
+
+    areAllShipsSunk() {
+        return this.ships.every(ship => ship.isSunk())
     }
 }

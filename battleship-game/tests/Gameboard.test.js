@@ -1,5 +1,5 @@
-import Gameboard from "../src/game/Gameboard"
-import Ship from "../src/game/Ship";
+import Gameboard from "../src/board/Gameboard"
+import Ship from "../src/board/Ship";
 
 describe("Gameboard class", () => {
     it("board length should have the correct size", () => {
@@ -123,4 +123,25 @@ describe("Gameboard areAllShipsSunk funcion", () => {
         board.receiveAttack(0,0);
         expect(board.areAllShipsSunk()).toBe(true);
     })
+    it("should return true with empty board", () => {
+        const board = new Gameboard(5);
+        expect(board.areAllShipsSunk()).toBe(true);
+    })
+    it("should return false if a ship is on the board and not sunk", () => {
+        const board = new Gameboard(5);
+        const ship = new Ship(2);
+        board.placeShip(ship,0,0,true);
+        board.receiveAttack(0,0);
+        expect(board.areAllShipsSunk()).toBe(false);
+    })
+
+    it("should return false if one ship is sunk but another is still floating", () => {
+        const board = new Gameboard(5);
+        const ship1 = new Ship(1);
+        const ship2 = new Ship(2);
+        board.placeShip(ship1, 0, 0, true);
+        board.placeShip(ship2, 2, 0, true);
+        board.receiveAttack(0, 0); 
+        expect(board.areAllShipsSunk()).toBe(false);
+    });
 })

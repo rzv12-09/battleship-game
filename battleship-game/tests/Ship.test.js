@@ -1,4 +1,4 @@
-import Ship from "../src/game/Ship";
+import Ship from "../src/board/Ship";
 
 describe('Ship class',()=>{
     it("should initialize with given length and 0 hits",() => {
