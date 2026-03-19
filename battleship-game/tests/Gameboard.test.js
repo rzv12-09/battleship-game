@@ -65,6 +65,11 @@ describe("Gameboard class", () => {
         expect(() => board.placeShip(ship,0,0,true)).toThrow("Ship is out of bounds");
     })
 
+
+    it("getAvailableMoves method should return all valid moves",() => {
+        const board = new Gameboard(2);
+        expect(board.getAvailableMoves()).toEqual([{row:0,col:0},{row:0,col:1},{row:1,col:0},{row:1,col:1}])
+    }) 
 })
 
 describe("Gameboard receiveAttack function", () => {
@@ -113,6 +118,14 @@ describe("Gameboard receiveAttack function", () => {
         const board = new Gameboard(5);
         expect(board.receiveAttack(1,1)).toBe("miss");
     })
+
+    it("method getAttackCount should return exact number of received attacks", ()=> {
+        const board = new Gameboard(5);
+        board.receiveAttack(1,1);
+        board.receiveAttack(1,2);
+        expect(board.getAttackCount()).toBe(2);
+    })
+
 })
 
 describe("Gameboard areAllShipsSunk funcion", () => {
@@ -144,4 +157,5 @@ describe("Gameboard areAllShipsSunk funcion", () => {
         board.receiveAttack(0, 0); 
         expect(board.areAllShipsSunk()).toBe(false);
     });
+
 })

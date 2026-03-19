@@ -4,6 +4,7 @@ export default class Gameboard {
     constructor(boardSideLength) {
         this.board = [];
         this.ships = [];
+        this.receivedAttacksCount = 0;
         for (let row = 0 ; row < boardSideLength ; row++) {
             const boardRow = [];
             for (let col = 0 ; col < boardSideLength ; col++) {
@@ -58,6 +59,7 @@ export default class Gameboard {
         const cell = this.getCell(row,col);
         cell.wasAttacked = true;
         const ship = cell.ship;
+        this.receivedAttacksCount++;
         if(ship) {
             ship.hit();
             return "hit";            
@@ -67,5 +69,21 @@ export default class Gameboard {
 
     areAllShipsSunk() {
         return this.ships.every(ship => ship.isSunk())
+    }
+
+    getAttackCount() {
+        return this.receivedAttacksCount;
+    }
+
+    getAvailableMoves() {
+        const availableMoves = [];
+        for (let row = 0 ; row < this.board.length ; row ++) {
+            for(let col = 0 ; col < this.board[row].length ; col++) {
+                if(!this.getCell(row,col).wasAttacked) {
+                    availableMoves.push({row,col});
+                }
+            }
+        }
+        return availableMoves;
     }
 }
