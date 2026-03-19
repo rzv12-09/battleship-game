@@ -41,9 +41,19 @@ describe("Computer type", () => {
         const enemyBoard = new Gameboard(2);
         computerPlayer.randomAttack(enemyBoard);
         computerPlayer.randomAttack(enemyBoard);
-        expect(enemyBoard.getAttackCount()).toBe(2);
+        computerPlayer.randomAttack(enemyBoard);
+        computerPlayer.randomAttack(enemyBoard);
+        expect(enemyBoard.getAttackCount()).toBe(4);
     })
     it("throws error if random attack is made by a real player", () => {
-        
+        const realPlayer = new Player(5,"real");
+        const enemyBoard = new Gameboard(2);
+        expect(() => realPlayer.randomAttack(enemyBoard)).toThrow("Random attack is available only to computer players");
+    })
+    it("throws error if there are no more moves left", () => {
+        const computerPlayer = new Player(5,"computer");
+        const enemyBoard = new Gameboard(1);
+        computerPlayer.randomAttack(enemyBoard);
+        expect(() => computerPlayer.randomAttack(enemyBoard)).toThrow("No moves left for random attack");
     })
 })
