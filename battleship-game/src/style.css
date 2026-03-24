@@ -1,0 +1,17 @@
+.boards-container {
+  display: flex;
+  gap: 50px;
+}
+
+.board {
+  display: grid;
+}
+
+.cell {
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.cell:hover {
+  background-color: grey;
+}
