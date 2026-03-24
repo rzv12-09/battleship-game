@@ -1,1 +1,5 @@
-import './style.css'
+import './style.css';
+import ScreenController from './controllers/ScreenController';
+
+const ui = new ScreenController();
+ui.intitializeGame();
