@@ -136,9 +136,9 @@ describe("Gameboard areAllShipsSunk funcion", () => {
         board.receiveAttack(0,0);
         expect(board.areAllShipsSunk()).toBe(true);
     })
-    it("should return true with empty board", () => {
+    it("should return false with empty board", () => {
         const board = new Gameboard(5);
-        expect(board.areAllShipsSunk()).toBe(true);
+        expect(board.areAllShipsSunk()).toBe(false);
     })
     it("should return false if a ship is on the board and not sunk", () => {
         const board = new Gameboard(5);

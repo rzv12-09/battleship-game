@@ -5,9 +5,9 @@ import Ship from '../board/Ship.js';
 export default class ScreenController {
   constructor() {
     this.root = document.querySelector('#app');
-    const p1 = new Player(7, 'real', 'Razvan');
-    const p2 = new Player(7, 'computer', 'Ai');
-    this.game = new GameController(p1, p2);
+    this.p1 = new Player(7, 'real', 'Razvan');
+    this.p2 = new Player(7, 'computer', 'Ai');
+    this.game = new GameController(this.p1, this.p2);
     this.isGameDisabled = false;
   }
 
@@ -15,17 +15,20 @@ export default class ScreenController {
     this.root.innerHTML = `
         <h1>Battleship Game</h1>
         <div class="boards-container"></div>
+        <button class="reset-btn">Reset Game</button>
+        <div class="winner-message"></div>
     `;
-    //test ships
 
-    const ship1 = new Ship(3);
-    const ship2 = new Ship(3);
-    const ship3 = new Ship(3);
-    const ship4 = new Ship(3);
-    this.game.player1.gameBoard.placeShip(ship1, 0, 2, true);
-    this.game.player2.gameBoard.placeShip(ship2, 2, 2, true);
+    this.placeShips();
     this.setupEventListeners();
     this.renderBoards();
+  }
+
+  placeShips() {
+    const ship1 = new Ship(3);
+    const ship2 = new Ship(3);
+    this.game.player1.gameBoard.placeShip(ship1, 0, 2, true);
+    this.game.player2.gameBoard.placeShip(ship2, 2, 2, true);
   }
 
   renderBoards() {
@@ -79,7 +82,26 @@ export default class ScreenController {
     });
   }
 
+  resetGame() {
+    const boardSize = this.game.player1.gameBoard.board.length;
+    this.p1 = new Player(boardSize, this.p1.type, this.p1.name);
+    this.p2 = new Player(boardSize, this.p2.type, this.p2.name);
+    this.game = new GameController(this.p1, this.p2);
+    this.isGameDisabled = false;
+
+    const winnerMessage = document.querySelector('.winner-message');
+    winnerMessage.textContent = '';
+
+    this.placeShips();
+    this.renderBoards();
+  }
+
   setupEventListeners() {
+    const resetBtn = document.querySelector('.reset-btn');
+    resetBtn.addEventListener('click', () => {
+      this.resetGame();
+    });
+
     const boardContainer = document.querySelector('.boards-container');
     boardContainer.addEventListener('click', (e) => {
       if (this.isGameDisabled) {
@@ -99,8 +121,9 @@ export default class ScreenController {
       try {
         this.game.playRound(row, col);
         this.renderBoards();
-        if (this.game.checkWinnerPlayer()) {
-          this.renderWinner();
+        const winner = this.game.checkWinnerPlayer();
+        if (winner) {
+          this.renderWinner(winner);
           this.isGameDisabled = true;
         }
       } catch (error) {
@@ -108,10 +131,9 @@ export default class ScreenController {
       }
     });
   }
-  renderWinner() {
-    const winnerDiv = document.createElement('div');
-    winnerDiv.textContent =
-      this.game.checkWinnerPlayer() + ' has won the game!';
-    this.root.appendChild(winnerDiv);
+
+  renderWinner(winner) {
+    const winnerMessage = document.querySelector('.winner-message');
+    winnerMessage.textContent = winner + ' has won the game!';
   }
 }

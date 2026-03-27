@@ -1,3 +1,5 @@
+import Player from '../player/Player';
+
 export default class GameController {
   constructor(player1, player2) {
     this.player1 = player1;
@@ -39,5 +41,6 @@ export default class GameController {
     if (this.player2.gameBoard.areAllShipsSunk()) {
       return this.player1.name;
     }
+    return null;
   }
 }
