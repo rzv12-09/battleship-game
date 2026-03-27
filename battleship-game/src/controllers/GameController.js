@@ -1,3 +1,4 @@
+import Ship from '../board/Ship';
 import Player from '../player/Player';
 
 export default class GameController {
@@ -31,6 +32,29 @@ export default class GameController {
       }
 
       this.activePlayer = humanPlayer;
+    }
+  }
+
+  placeRandomShips(gameBoard, shipsCount) {
+    const shipList = [];
+    for (let i = 3; i < shipsCount + 3; i++) {
+      shipList.push(new Ship(i));
+    }
+    while (shipList.length !== 0) {
+      const row = Math.floor(Math.random() * gameBoard.board.length);
+      const col = Math.floor(Math.random() * gameBoard.board.length);
+      const isHorizontally = !!Math.floor(Math.random() * 2);
+      try {
+        gameBoard.placeShip(
+          shipList[shipList.length - 1],
+          row,
+          col,
+          isHorizontally
+        );
+      } catch (e) {
+        continue;
+      }
+      shipList.pop();
     }
   }
 

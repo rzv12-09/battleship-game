@@ -7,6 +7,7 @@
   --accent-hover: #0ea5e9;
   --ship-color: #10b981;
   --hit-color: #ef4444;
+  --hit-color-hover: #dd3d3d;
   --miss-color: #334155;
   --cell-border: #334155;
   --cell-hover: rgba(56, 189, 248, 0.2);
@@ -22,7 +23,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  /* overflow-y: hidden; */
+  overflow-y: hidden;
 }
 
 h1 {
@@ -49,7 +50,7 @@ h1 {
   gap: 10rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .player-area {
@@ -76,8 +77,8 @@ h1 {
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 19px;
+  height: 19px;
   border: 1px solid var(--cell-border);
   transition: all 0.2s ease;
   cursor: crosshair;
@@ -131,11 +132,11 @@ h1 {
 }
 
 .reset-btn {
-  background-color: var(--accent);
+  background-color: var(--hit-color);
   color: white;
   border: none;
-  padding: 0.75rem 2rem;
-  font-size: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.6rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
@@ -144,7 +145,7 @@ h1 {
 }
 
 .reset-btn:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--hit-color-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
@@ -154,8 +155,7 @@ h1 {
 }
 
 .winner-message {
-  margin-top: 1.5rem;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: var(--ship-color);
   text-align: center;
