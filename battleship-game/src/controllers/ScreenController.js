@@ -8,6 +8,7 @@ export default class ScreenController {
     const p1 = new Player(7, 'real', 'Razvan');
     const p2 = new Player(7, 'computer', 'Ai');
     this.game = new GameController(p1, p2);
+    this.isGameDisabled = false;
   }
 
   inititializeGame() {
@@ -81,6 +82,9 @@ export default class ScreenController {
   setupEventListeners() {
     const boardContainer = document.querySelector('.boards-container');
     boardContainer.addEventListener('click', (e) => {
+      if (this.isGameDisabled) {
+        return;
+      }
       const clickedElement = e.target;
       if (!clickedElement.classList.contains('cell')) {
         return;
@@ -97,6 +101,7 @@ export default class ScreenController {
         this.renderBoards();
         if (this.game.checkWinnerPlayer()) {
           this.renderWinner();
+          this.isGameDisabled = true;
         }
       } catch (error) {
         console.error(error.message);
