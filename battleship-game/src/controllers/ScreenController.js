@@ -30,6 +30,7 @@ export default class ScreenController {
 
   placeShips() {
     this.game.placeRandomShips(this.p1.gameBoard, 5);
+    this.game.placeRandomShips(this.p2.gameBoard, 5);
   }
 
   renderBoards() {
@@ -85,6 +86,8 @@ export default class ScreenController {
   }
 
   resetGame() {
+    const replaceBtn = document.querySelector('.replace-btn');
+    replaceBtn.style.display = 'block';
     const boardSize = this.game.player1.gameBoard.board.length;
     this.p1 = new Player(boardSize, this.p1.type, this.p1.name);
     this.p2 = new Player(boardSize, this.p2.type, this.p2.name);
@@ -99,6 +102,11 @@ export default class ScreenController {
   }
 
   setupEventListeners() {
+    const replaceBtn = document.querySelector('.replace-btn');
+    replaceBtn.addEventListener('click', () => {
+      this.resetGame();
+    });
+
     const resetBtn = document.querySelector('.reset-btn');
     resetBtn.addEventListener('click', () => {
       this.resetGame();
@@ -106,6 +114,8 @@ export default class ScreenController {
 
     const boardContainer = document.querySelector('.boards-container');
     boardContainer.addEventListener('click', (e) => {
+      const replaceBtn = document.querySelector('.replace-btn');
+      replaceBtn.style.display = 'none';
       if (this.isGameDisabled) {
         return;
       }

@@ -131,7 +131,13 @@ h1 {
   color: var(--text-dim);
 }
 
-.reset-btn {
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.reset-btn,
+.replace-btn {
   background-color: var(--hit-color);
   color: white;
   border: none;
@@ -150,8 +156,14 @@ h1 {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.reset-btn:active {
-  transform: translateY(0);
+.replace-btn {
+  background-color: var(--accent);
+}
+
+.replace-btn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .winner-message {
