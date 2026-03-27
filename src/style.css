@@ -11,6 +11,7 @@
   --miss-color: #334155;
   --cell-border: #334155;
   --cell-hover: rgba(56, 189, 248, 0.2);
+  font-size: 30px;
 }
 
 body {
@@ -77,8 +78,8 @@ h1 {
 }
 
 .cell {
-  width: 19px;
-  height: 19px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--cell-border);
   transition: all 0.2s ease;
   cursor: crosshair;

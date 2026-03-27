@@ -1,5 +1,5 @@
-import GameController from './GameController';
-import Player from '../player/Player';
+import GameController from './GameController.js';
+import Player from '../player/Player.js';
 import Ship from '../board/Ship.js';
 
 export default class ScreenController {
