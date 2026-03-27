@@ -6,11 +6,30 @@ export default class GameController {
   }
 
   playRound(row, col) {
-    const enemyPlayer =
+    let enemyPlayer =
       this.activePlayer === this.player1 ? this.player2 : this.player1;
-    const enemyBoard = enemyPlayer.gameBoard;
+    let enemyBoard = enemyPlayer.gameBoard;
+
     enemyBoard.receiveAttack(row, col);
+
+    if (this.checkWinnerPlayer()) {
+      return;
+    }
+
     this.activePlayer = enemyPlayer;
+    if (this.activePlayer.type === 'computer') {
+      const humanPlayer =
+        this.activePlayer === this.player1 ? this.player2 : this.player1;
+      const humanBoard = humanPlayer.gameBoard;
+
+      this.activePlayer.randomAttack(humanBoard);
+
+      if (this.checkWinnerPlayer()) {
+        return;
+      }
+
+      this.activePlayer = humanPlayer;
+    }
   }
 
   checkWinnerPlayer() {

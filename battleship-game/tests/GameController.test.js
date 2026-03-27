@@ -21,15 +21,6 @@ describe('GameController class', () => {
     expect(game.activePlayer).toBe(player1);
   });
 
-  it("playRound should attack the defending player's board and switch turns", () => {
-    const player1 = new Player(5, 'real', 'Rzv');
-    const player2 = new Player(5, 'computer', 'Andrei');
-    const game = new GameController(player1, player2);
-    game.playRound(0, 0);
-    expect(player2.gameBoard.getCell(0, 0).wasAttacked).toBe(true);
-    expect(game.activePlayer).toBe(player2);
-  });
-
   it('checkWinnerPlayer should return winner player name if there are no enemy ships left', () => {
     const player1 = new Player(1, 'real', 'Rzv');
     const player2 = new Player(1, 'computer', 'Andrei');

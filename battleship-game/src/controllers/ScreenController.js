@@ -3,8 +3,8 @@ import Player from '../player/Player';
 export default class ScreenController {
   constructor() {
     this.root = document.querySelector('#app');
-    const p1 = new Player(10, 'real', 'Razvan');
-    const p2 = new Player(10, 'computer', 'Ai');
+    const p1 = new Player(7, 'real', 'Razvan');
+    const p2 = new Player(7, 'computer', 'Ai');
     this.game = new GameController(p1, p2);
   }
 
@@ -13,20 +13,20 @@ export default class ScreenController {
         <h1>Battleship Game</h1>
         <div class="boards-container"></div>
     `;
+    this.setupEventListeners();
     this.renderBoards();
   }
 
   renderBoards() {
     const player1 = this.game.player1;
     const player2 = this.game.player2;
-    const boardLength = player1.gameBoard.board.length;
     const boardContainer = document.querySelector('.boards-container');
     boardContainer.innerHTML = `
         <div class="player1">
             <div class="board"></div>
             <div>${player1.name}</div>
         </div>
-            <div class="player2">
+        <div class="player2">
             <div class="board"></div>
             <div>${player2.name}</div>
         </div>
@@ -35,11 +35,11 @@ export default class ScreenController {
     const board1 = document.querySelector('.player1 .board');
     const board2 = document.querySelector('.player2 .board');
 
-    this.renderSingleBoard(board1, player1.gameBoard);
-    this.renderSingleBoard(board2, player2.gameBoard);
+    this.renderSingleBoard(board1, player1.gameBoard, false);
+    this.renderSingleBoard(board2, player2.gameBoard, true);
   }
 
-  renderSingleBoard(boardDiv, gameBoard) {
+  renderSingleBoard(boardDiv, gameBoard, isEnemyBoard) {
     const board = gameBoard.board;
     const boardLength = board.length;
     const gridStyle = `repeat(${boardLength}, 1fr)`;
@@ -52,7 +52,43 @@ export default class ScreenController {
       cellDiv.classList.add('cell');
       cellDiv.dataset.row = cell.row;
       cellDiv.dataset.column = cell.col;
+
+      if (cell.wasAttacked) {
+        cellDiv.classList.add('attacked');
+        if (cell.ship) {
+          cellDiv.classList.add('hit');
+        } else {
+          cellDiv.classList.add('miss');
+        }
+      } else if (!isEnemyBoard && cell.ship) {
+        cellDiv.classList.add('ship');
+      }
+
       boardDiv.appendChild(cellDiv);
+    });
+  }
+
+  setupEventListeners() {
+    const boardContainer = document.querySelector('.boards-container');
+    boardContainer.addEventListener('click', (e) => {
+      const clickedElement = e.target;
+      if (!clickedElement.classList.contains('cell')) {
+        return;
+      }
+      if (!clickedElement.closest('.player2')) {
+        return;
+      }
+
+      const row = Number(clickedElement.dataset.row);
+      const col = Number(clickedElement.dataset.column);
+
+      try {
+        this.game.playRound(row, col);
+        console.log('attacked');
+        this.renderBoards();
+      } catch (error) {
+        console.error(error.message);
+      }
     });
   }
 }
