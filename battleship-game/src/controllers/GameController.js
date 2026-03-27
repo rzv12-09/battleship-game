@@ -39,6 +39,5 @@ export default class GameController {
     if (this.player2.gameBoard.areAllShipsSunk()) {
       return this.player1.name;
     }
-    return null;
   }
 }

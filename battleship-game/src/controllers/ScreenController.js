@@ -1,5 +1,7 @@
 import GameController from './GameController';
 import Player from '../player/Player';
+import Ship from '../board/Ship.js';
+
 export default class ScreenController {
   constructor() {
     this.root = document.querySelector('#app');
@@ -13,6 +15,14 @@ export default class ScreenController {
         <h1>Battleship Game</h1>
         <div class="boards-container"></div>
     `;
+    //test ships
+
+    const ship1 = new Ship(3);
+    const ship2 = new Ship(3);
+    const ship3 = new Ship(3);
+    const ship4 = new Ship(3);
+    this.game.player1.gameBoard.placeShip(ship1, 0, 2, true);
+    this.game.player2.gameBoard.placeShip(ship2, 2, 2, true);
     this.setupEventListeners();
     this.renderBoards();
   }
@@ -84,11 +94,19 @@ export default class ScreenController {
 
       try {
         this.game.playRound(row, col);
-        console.log('attacked');
         this.renderBoards();
+        if (this.game.checkWinnerPlayer()) {
+          this.renderWinner();
+        }
       } catch (error) {
         console.error(error.message);
       }
     });
+  }
+  renderWinner() {
+    const winnerDiv = document.createElement('div');
+    winnerDiv.textContent =
+      this.game.checkWinnerPlayer() + ' has won the game!';
+    this.root.appendChild(winnerDiv);
   }
 }
