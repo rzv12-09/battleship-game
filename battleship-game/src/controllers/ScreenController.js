@@ -5,8 +5,8 @@ import Ship from '../board/Ship.js';
 export default class ScreenController {
   constructor() {
     this.root = document.querySelector('#app');
-    this.p1 = new Player(7, 'real', 'Razvan');
-    this.p2 = new Player(7, 'computer', 'Ai');
+    this.p1 = new Player(6, 'real', 'You');
+    this.p2 = new Player(6, 'computer', 'Computer');
     this.game = new GameController(this.p1, this.p2);
     this.isGameDisabled = false;
   }
@@ -16,7 +16,9 @@ export default class ScreenController {
         <h1>BATTLESHIP</h1>
         <div class="status-message">Fire when ready, Admiral!</div>
         <div class="boards-container"></div>
-        <button class="reset-btn">Reset Game</button>
+        <div class="controls">
+            <button class="reset-btn">Reset Game</button>
+        </div>
         <div class="winner-message"></div>
     `;
 
@@ -36,6 +38,12 @@ export default class ScreenController {
     const player1 = this.game.player1;
     const player2 = this.game.player2;
     const boardContainer = document.querySelector('.boards-container');
+    const statusMessage = document.querySelector('.status-message');
+    
+    if (statusMessage && !this.game.checkWinnerPlayer()) {
+        statusMessage.textContent = this.game.activePlayer === player1 ? "Your Turn" : "Computer is thinking...";
+    }
+
     boardContainer.innerHTML = `
         <div class="player-area player1">
             <div class="player-name">${player1.name}</div>
@@ -91,9 +99,10 @@ export default class ScreenController {
     this.isGameDisabled = false;
 
     const statusMessage = document.querySelector('.status-message');
-    statusMessage.textContent = 'Fire when ready, Admiral!';
+    if (statusMessage) statusMessage.textContent = 'Fire when ready, Admiral!';
+    
     const winnerMessage = document.querySelector('.winner-message');
-    winnerMessage.textContent = '';
+    if (winnerMessage) winnerMessage.textContent = '';
 
     this.placeShips();
     this.renderBoards();
