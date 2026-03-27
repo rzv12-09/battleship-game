@@ -13,7 +13,8 @@ export default class ScreenController {
 
   inititializeGame() {
     this.root.innerHTML = `
-        <h1>Battleship Game</h1>
+        <h1>BATTLESHIP</h1>
+        <div class="status-message">Fire when ready, Admiral!</div>
         <div class="boards-container"></div>
         <button class="reset-btn">Reset Game</button>
         <div class="winner-message"></div>
@@ -36,13 +37,13 @@ export default class ScreenController {
     const player2 = this.game.player2;
     const boardContainer = document.querySelector('.boards-container');
     boardContainer.innerHTML = `
-        <div class="player1">
+        <div class="player-area player1">
+            <div class="player-name">${player1.name}</div>
             <div class="board"></div>
-            <div>${player1.name}</div>
         </div>
-        <div class="player2">
+        <div class="player-area player2">
+            <div class="player-name">${player2.name}</div>
             <div class="board"></div>
-            <div>${player2.name}</div>
         </div>
     `;
 
@@ -89,6 +90,8 @@ export default class ScreenController {
     this.game = new GameController(this.p1, this.p2);
     this.isGameDisabled = false;
 
+    const statusMessage = document.querySelector('.status-message');
+    statusMessage.textContent = 'Fire when ready, Admiral!';
     const winnerMessage = document.querySelector('.winner-message');
     winnerMessage.textContent = '';
 
@@ -133,6 +136,8 @@ export default class ScreenController {
   }
 
   renderWinner(winner) {
+    const statusMessage = document.querySelector('.status-message');
+    statusMessage.textContent = 'Mission Accomplished!';
     const winnerMessage = document.querySelector('.winner-message');
     winnerMessage.textContent = winner + ' has won the game!';
   }
